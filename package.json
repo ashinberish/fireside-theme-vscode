@@ -20,6 +20,11 @@
                 "label": "Fireside",
                 "uiTheme": "vs",
                 "path": "./themes/fireside-light-color-theme.json"
+            },
+            {
+                "label": "Fireside Dark",
+                "uiTheme": "vs-dark",
+                "path": "./themes/fireside-dark-color-theme.json"
             }
         ]
     },

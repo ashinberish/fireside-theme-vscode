@@ -1,4 +1,10 @@
 # Change Log
+## v3.1.0
+
+- New **Fireside Dark** theme
+- Bracket pair colors that match each theme
+- New screenshots for both themes
+
 ## v3.0.0
 
 - Renamed the theme to "Fireside"
