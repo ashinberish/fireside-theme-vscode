@@ -1,0 +1,59 @@
+name: Release
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+env:
+  VSCE_VERSION: 3.2.1
+
+jobs:
+  release:
+    name: Version, publish and release
+    runs-on: ubuntu-latest
+    environment: marketplace
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Pick next version
+        id: version
+        run: .github/scripts/next-version.sh
+
+      - name: Package VSIX
+        run: npx -y @vscode/vsce@${VSCE_VERSION} package --skip-license -o fireside-theme.vsix
+
+      - name: Commit and tag the version
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if ! git diff --quiet package.json; then
+            git commit -am "chore(release): v$VERSION [skip ci]"
+          fi
+          git tag "v$VERSION"
+          git push origin HEAD:master "v$VERSION"
+
+      - name: Publish to Marketplace
+        env:
+          VSCE_PAT: ${{ secrets.VSCE_PAT }}
+        run: npx -y @vscode/vsce@${VSCE_VERSION} publish --skip-license --packagePath fireside-theme.vsix
+
+      - name: Create GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.version.outputs.version }}
+        run: gh release create "v$VERSION" fireside-theme.vsix --title "v$VERSION" --generate-notes

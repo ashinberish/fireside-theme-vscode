@@ -1,0 +1,27 @@
+name: CI
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+env:
+  VSCE_VERSION: 3.2.1
+
+jobs:
+  package:
+    name: Package extension
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Package VSIX
+        run: npx -y @vscode/vsce@${VSCE_VERSION} package --skip-license -o fireside-theme.vsix
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fireside-theme-vsix
+          path: fireside-theme.vsix
