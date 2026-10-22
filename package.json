@@ -1,8 +1,8 @@
 {
-    "name": "nerd-theme",
-    "displayName": "Nerd Theme",
-    "description": "Light theme For VS Code",
-    "version": "2.0.2",
+    "name": "fireside-theme",
+    "displayName": "Fireside Theme",
+    "description": "A cosy light theme for VS Code: white editor, warm ivory chrome and ember orange accents",
+    "version": "3.0.0",
     "publisher": "Ashinberish",
     "author": {
         "name": "Ashin Berish"
@@ -17,9 +17,9 @@
     "contributes": {
         "themes": [
             {
-                "label": "Nerd",
+                "label": "Fireside",
                 "uiTheme": "vs",
-                "path": "./themes/nerd-light-color-theme.json"
+                "path": "./themes/fireside-light-color-theme.json"
             }
         ]
     },
