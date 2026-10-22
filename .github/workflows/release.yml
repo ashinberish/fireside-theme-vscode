@@ -11,6 +11,9 @@ concurrency:
 
 env:
   VSCE_VERSION: 3.2.1
+  # npx otherwise stalls for minutes on npm's retired audit endpoint
+  npm_config_audit: false
+  npm_config_fund: false
 
 jobs:
   release:
