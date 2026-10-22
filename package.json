@@ -1,7 +1,7 @@
 {
     "name": "fireside-theme",
     "displayName": "Fireside Theme",
-    "description": "A cosy light theme for VS Code: white editor, warm ivory chrome and ember orange accents",
+    "description": "Cosy light and dark themes for VS Code with warm neutrals and ember orange accents",
     "version": "3.0.0",
     "publisher": "Ashinberish",
     "author": {
@@ -20,6 +20,11 @@
                 "label": "Fireside",
                 "uiTheme": "vs",
                 "path": "./themes/fireside-light-color-theme.json"
+            },
+            {
+                "label": "Fireside Dark",
+                "uiTheme": "vs-dark",
+                "path": "./themes/fireside-dark-color-theme.json"
             }
         ]
     },

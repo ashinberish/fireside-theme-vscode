@@ -165,6 +165,13 @@
 		"editorCodeLens.foreground": "#A3A098",
 		"editorBracketMatch.background": "#F6DCCF88",
 		"editorBracketMatch.border": "#D97757",
+		"editorBracketHighlight.foreground1": "#C15F3C",
+		"editorBracketHighlight.foreground2": "#2D6A9F",
+		"editorBracketHighlight.foreground3": "#A0457A",
+		"editorBracketHighlight.foreground4": "#C15F3C",
+		"editorBracketHighlight.foreground5": "#2D6A9F",
+		"editorBracketHighlight.foreground6": "#A0457A",
+		"editorBracketHighlight.unexpectedBracket.foreground": "#C8423B",
 		// Overview Ruler
 		"editorOverviewRuler.border": "#E8E5DC",
 		"editorOverviewRuler.findMatchForeground": "#D97757",
