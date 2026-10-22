@@ -1,9 +1,6 @@
-name: CI / Publish
+name: CI
 
 on:
-  push:
-    branches: [master]
-    tags: ["v*"]
   pull_request:
   workflow_dispatch:
 
@@ -21,16 +18,6 @@ jobs:
         with:
           node-version: 20
 
-      - name: Check tag matches package.json version
-        if: startsWith(github.ref, 'refs/tags/v')
-        run: |
-          pkg_version="$(node -p "require('./package.json').version")"
-          tag_version="${GITHUB_REF_NAME#v}"
-          if [ "$pkg_version" != "$tag_version" ]; then
-            echo "::error::Tag $GITHUB_REF_NAME does not match package.json version $pkg_version"
-            exit 1
-          fi
-
       - name: Package VSIX
         run: npx -y @vscode/vsce@${VSCE_VERSION} package --skip-license -o fireside-theme.vsix
 
@@ -38,32 +25,3 @@ jobs:
         with:
           name: fireside-theme-vsix
           path: fireside-theme.vsix
-
-  publish:
-    name: Publish to VS Code Marketplace
-    needs: package
-    if: startsWith(github.ref, 'refs/tags/v')
-    runs-on: ubuntu-latest
-    environment: marketplace
-    permissions:
-      contents: write
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-
-      - uses: actions/download-artifact@v4
-        with:
-          name: fireside-theme-vsix
-
-      - name: Publish to Marketplace
-        env:
-          VSCE_PAT: ${{ secrets.VSCE_PAT }}
-        run: npx -y @vscode/vsce@${VSCE_VERSION} publish --skip-license --packagePath fireside-theme.vsix
-
-      - name: Create GitHub release
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: gh release create "$GITHUB_REF_NAME" fireside-theme.vsix --title "$GITHUB_REF_NAME" --generate-notes

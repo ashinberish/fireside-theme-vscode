@@ -18,16 +18,17 @@ A cosy light theme for Visual Studio Code: white editor, warm ivory chrome and e
 
 ## Releasing
 
-Every push and pull request builds the `.vsix` package in GitHub Actions.
+Every pull request builds the `.vsix` package in GitHub Actions.
 
-To publish a new version to the VS Code Marketplace:
+Every merge to `master` releases automatically:
 
-1. Bump `version` in `package.json` and add an entry to `CHANGELOG.md`.
-2. Commit, then tag the commit with the same version and push the tag:
-   ```sh
-   git tag v3.0.0
-   git push origin v3.0.0
-   ```
-3. The workflow publishes to the Marketplace and creates a GitHub release with the `.vsix` attached.
+1. The version in `package.json` is bumped based on the merged commit messages:
+   - `feat!:` or `BREAKING CHANGE` → major (3.0.0 → 4.0.0)
+   - `feat:` → minor (3.0.0 → 3.1.0)
+   - anything else → patch (3.0.0 → 3.0.1)
+2. The bump is committed to `master` and tagged `vX.Y.Z`.
+3. The extension is published to the VS Code Marketplace, and a GitHub release is created with the `.vsix` attached.
+
+To choose a version yourself, set it in `package.json` in your pull request. If that version has no tag yet, it is released as is.
 
 Publishing needs a `VSCE_PAT` repository secret: an Azure DevOps personal access token with the **Marketplace › Manage** scope for the `Ashinberish` publisher.
